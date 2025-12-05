@@ -1,0 +1,43 @@
+# General
+.DS_Store
+Thumbs.db
+*.log
+tmp/
+temp/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Go (Backend)
+/backend/main
+/backend/*.exe
+/backend/*.test
+/backend/vendor/
+/backend/go.work
+
+# Node.js (Frontend)
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+docker-compose.override.yml

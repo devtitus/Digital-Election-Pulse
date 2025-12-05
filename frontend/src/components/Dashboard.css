@@ -1,0 +1,280 @@
+.dashboard-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem; /* Reduced from 4rem */
+    padding-top: 1rem;
+}
+
+.dashboard-header h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #60a5fa, #c084fc, #f472b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.05em;
+    filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.2));
+}
+
+.dashboard-header p {
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+/* Controls - Positioned cleanly */
+.controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+}
+
+/* Refresh Button - Minimalist Ghost Button */
+.refresh-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--accordion-teal, #14b8a6); /* Fallback to teal if var missing */
+    padding: 0.6rem 1.2rem;
+    border-radius: 99px; /* Pill shape matches flow */
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.refresh-btn:hover:not(:disabled) {
+    border-color: var(--accent-teal, #14b8a6);
+    color: #fff;
+    background: rgba(20, 184, 166, 0.1);
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+}
+
+.refresh-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    border: var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(var(--backdrop-blur));
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Gradient border effect via pseudo-element */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    background: rgba(30, 41, 59, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Topics Card Specifics */
+.topics-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.topic-tag {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition);
+    cursor: default;
+}
+
+.topic-tag:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-glow);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+/* Emotion Card Specifics */
+.emotion-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-top: 1rem;
+    filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+}
+
+/* Sentiment Gauge adjustments for dark mode */
+.sentiment-gauge text {
+    fill: var(--text-primary) !important;
+}
+
+/* Grid Layout */
+.dashboard-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.dashboard-grid.updating {
+    opacity: 0.5;
+    pointer-events: none;
+    filter: grayscale(0.8);
+    transition: var(--transition);
+}
+
+/* Loading/Empty/Error States */
+.loading-state, .empty-state, .error-state {
+    background: var(--card-bg);
+    border: var(--card-border);
+    backdrop-filter: blur(var(--backdrop-blur));
+    box-shadow: var(--glass-shadow);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    padding: 4rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    margin-top: 2rem;
+}
+
+.spinner, .empty-icon, .error-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));
+}
+
+.spinner {
+    animation: customBounce 1.5s infinite ease-in-out;
+}
+
+@keyframes customBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.empty-state h3, .error-state h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p, .error-state p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    max-width: 400px;
+}
+
+/* Overlay */
+.updating-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 23, 42, 0.9);
+    padding: 1rem 2.5rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    font-weight: 600;
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.updating-overlay::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-glow);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Mini Empty States */
+.mini-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.mini-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.5;
+}
+
+/* Buttons */
+.retry-btn, .start-btn {
+    background: linear-gradient(135deg, var(--primary-glow), var(--secondary-glow));
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 99px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.retry-btn:hover, .start-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+}
