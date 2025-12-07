@@ -46,7 +46,7 @@ Guidelines:
 4. **Context Awareness**: Understand Tamil internet slang and cultural nuances (e.g., 'Sanghi', 'Upee', '200 rs', 'Vadinokkan', 'Thalaiva', 'Mass').
 5. **Spam Filtering**: Ignore repetitive bot-like comments or irrelevant noise.
 
-Output strictly a JSON object with this schema:
+Output strictly a valid JSON object with this schema. Do NOT use markdown code blocks or any other formatting. Only the raw JSON.
 {
   "sentiment_score": float (-1.0 to 1.0),
   "emotion": string (One of: Anger, Hope, Mockery, Support, Fear, Indifference, Pride),
@@ -74,15 +74,21 @@ Data to Analyze:
 		return nil, fmt.Errorf("unexpected response format")
 	}
 
-	// Clean markdown if present
-	cleanedText := strings.TrimSpace(string(txt))
-	cleanedText = strings.TrimPrefix(cleanedText, "```json")
-	cleanedText = strings.TrimPrefix(cleanedText, "```")
-	cleanedText = strings.TrimSuffix(cleanedText, "```")
+	// Extract JSON from response (robust method)
+	rawText := strings.TrimSpace(string(txt))
+
+	start := strings.Index(rawText, "{")
+	end := strings.LastIndex(rawText, "}")
+
+	if start == -1 || end == -1 || start > end {
+		return nil, fmt.Errorf("invalid response format: could not find JSON object. Raw: %s", rawText)
+	}
+
+	jsonStr := rawText[start : end+1]
 
 	var result AIAnalysisResult
-	if err := json.Unmarshal([]byte(cleanedText), &result); err != nil {
-		return nil, fmt.Errorf("failed to parse AI JSON response: %w. Raw: %s", err, cleanedText)
+	if err := json.Unmarshal([]byte(jsonStr), &result); err != nil {
+		return nil, fmt.Errorf("failed to parse AI JSON response: %w. Raw: %s", err, jsonStr)
 	}
 
 	return &result, nil
