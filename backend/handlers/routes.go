@@ -18,6 +18,7 @@ func SetupRoutes(app *fiber.App) {
 	api.Post("/analyze", AnalyzeParty)
 	api.Get("/latest", GetLatestSnapshot)
 	api.Get("/history/:party_id", GetHistory)
+	api.Get("/trends", GetTrends)
 }
 
 func GetParties(c *fiber.Ctx) error {
@@ -158,4 +159,13 @@ func safeGetTopic(topics []string) string {
 
 func GetHistory(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "Get History - To Be Implemented"})
+}
+
+func GetTrends(c *fiber.Ctx) error {
+	trends, err := services.FetchTrends(c.Context())
+	if err != nil {
+		fmt.Printf("Error fetching trends: %v\n", err)
+		return c.Status(500).JSON(fiber.Map{"error": "Failed to fetch trends: " + err.Error()})
+	}
+	return c.JSON(trends)
 }

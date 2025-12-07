@@ -31,7 +31,7 @@ func AnalyzeSentiment(ctx context.Context, textData string) (*AIAnalysisResult, 
 	defer client.Close()
 
 	// Try gemini-1.5-flash-001 first, then fallback to gemini-pro if needed
-	modelName := "gemini-robotics-er-1.5-preview"
+	modelName := "gemini-2.5-flash"
 	model := client.GenerativeModel(modelName)
 	model.ResponseMIMEType = "application/json"
 
@@ -39,19 +39,26 @@ func AnalyzeSentiment(ctx context.Context, textData string) (*AIAnalysisResult, 
 You are an expert political analyst and social psychologist specializing in Tamil Nadu politics. 
 Your task is to analyze the provided text data (Headlines, social media comments, Reddit discussions) regarding a political party.
 
-Guidelines:
-1. **Bias Mitigation**: Remain strictly objective. Audit your analysis for any partisan bias.
-2. **Fact-Checking**: Cross-reference claims in the text. If a claim is demonstrably false or misinformation, lower the sentiment score and note it.
-3. **Emotional Quotient (EQ)**: Go beyond basic sentiment. Identify deep emotional drivers (e.g., "Resentment regarding flood relief" is deeper than just "Anger").
-4. **Context Awareness**: Understand Tamil internet slang and cultural nuances (e.g., 'Sanghi', 'Upee', '200 rs', 'Vadinokkan', 'Thalaiva', 'Mass').
-5. **Spam Filtering**: Ignore repetitive bot-like comments or irrelevant noise.
+### PHASE 1: THINKING PROCESS
+Before generating the JSON, perform a deep analysis (you can output this thought process before the JSON block):
+1. **Source Weighting**: Prioritize reputable news (e.g., BBC, Hindustan Times, Dinamalar) over unverified social media noise.
+2. **Bias Detection**: specific political biases in the source text and neutralize them.
+3. **Contextual nuance**: Differentiate between "Mockery" (trolling) and genuine "Anger". Understand TN political slang (e.g., 'Sanghi', 'Upee', 'Dravidiya Model').
+4. **Aggregate Scoring**: Calculate the score based on the *weighted* evidence, not just the volume of text.
 
-Output strictly a valid JSON object with this schema. Do NOT use markdown code blocks or any other formatting. Only the raw JSON.
+### PHASE 2: FINAL OUTPUT
+Output strictly a valid JSON object.
+- **Sentiment Score**: A float between -1.0 (Extreme Negative) and 1.0 (Extreme Positive).
+- **Emotion**: MUST be exactly one of these: "Strong Support", "Support", "Neutral", "Disappointment", "Anger", "Hope", "Fear", "Mockery".
+- **Key Topics**: Top 3-5 specific themes driving this sentiment.
+- **Fact Check**: Note any identified misinformation or "None".
+
+JSON Schema:
 {
-  "sentiment_score": float (-1.0 to 1.0),
-  "emotion": string (One of: Anger, Hope, Mockery, Support, Fear, Indifference, Pride),
-  "key_topics": array of strings (Top 3-5 recurring themes, specific and specific),
-  "fact_check_notes": string (Brief note on any major misinformation detected, or "None")
+  "sentiment_score": float,
+  "emotion": string,
+  "key_topics": [string],
+  "fact_check_notes": string
 }
 
 Data to Analyze:
