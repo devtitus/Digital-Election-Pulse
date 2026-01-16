@@ -39,6 +39,11 @@
         "markitdown-mcp:latest"
       ],
       "enabled": true
+    },
+    "neon": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-remote", "https://mcp.neon.tech/mcp"],
+      "enabled": true
     }
   }
 }

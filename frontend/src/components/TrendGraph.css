@@ -1,0 +1,72 @@
+.trend-graph {
+    width: 100%;
+    height: 140px;
+}
+
+.trend-tooltip {
+    background: var(--bg-charcoal);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-sm);
+    box-shadow: var(--shadow-medium);
+    font-size: var(--text-sm);
+}
+
+.tooltip-date {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.tooltip-value {
+    margin: 0;
+    font-weight: 500;
+}
+
+.trend-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.trend-empty span {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--spacing-xs);
+    opacity: 0.5;
+}
+
+.trend-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-xs);
+}
+
+.trend-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.trend-label {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Override recharts default styles */
+.recharts-cartesian-axis-tick-value {
+    fill: var(--text-muted) !important;
+}
+
+.recharts-tooltip-cursor {
+    stroke: var(--accent-gold) !important;
+    stroke-width: 1px !important;
+    opacity: 0.5 !important;
+}

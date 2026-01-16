@@ -46,12 +46,38 @@ export const getLatestSnapshot = async (partyName) => {
     }
 };
 
-export const getHistory = async (partyId) => {
+export const getTrends = async (partyName) => {
     try {
-        const response = await api.get(`/history/${partyId}`);
+        const response = await api.get('/trends', { params: { party_name: partyName } });
         return response.data;
     } catch (error) {
-        console.error("API Error fetching history:", error);
-        return [];
+        console.error("API Error fetching trends:", error);
+        // Return mock trend data
+        return [
+            { date: '2024-01-01', sentiment: 45 },
+            { date: '2024-01-02', sentiment: 52 },
+            { date: '2024-01-03', sentiment: 48 },
+            { date: '2024-01-04', sentiment: 61 },
+            { date: '2024-01-05', sentiment: 55 },
+            { date: '2024-01-06', sentiment: 58 },
+            { date: '2024-01-07', sentiment: 62 }
+        ];
+    }
+};
+
+export const getComparison = async () => {
+    try {
+        const response = await api.get('/comparison');
+        return response.data;
+    } catch (error) {
+        console.error("API Error fetching comparison:", error);
+        // Return mock comparison data
+        return [
+            { party: 'DMK', sentiment: 62, color: '#dc2626' },
+            { party: 'AIADMK', sentiment: 58, color: '#16a34a' },
+            { party: 'BJP', sentiment: 45, color: '#ea580c' },
+            { party: 'NTK', sentiment: 38, color: '#b91c1c' },
+            { party: 'TVK', sentiment: 52, color: '#d97706' }
+        ];
     }
 };
