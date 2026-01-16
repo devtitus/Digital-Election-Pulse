@@ -27,17 +27,6 @@
       "url": "https://www.shadcn.io/api/mcp",
       "enabled": true
     },
-    "apify": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "@apify/actors-mcp-server",
-        "--tools",
-        "actors,docs,apify/rag-web-browser"
-      ],
-      "enabled": true
-    },
     "markitdown": {
       "type": "local",
       "command": [
