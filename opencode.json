@@ -1,0 +1,55 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "enabled": true,
+      "environment": {
+        "CONTEXT7_API_KEY": "YOUR_API_KEY_HERE"
+      }
+    },
+    "promptx": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "-f",
+        "--registry",
+        "https://registry.npmjs.org",
+        "dpml-prompt@beta",
+        "mcp-server"
+      ],
+      "enabled": true
+    },
+    "shadcn": {
+      "type": "remote",
+      "url": "https://www.shadcn.io/api/mcp",
+      "enabled": true
+    },
+    "apify": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@apify/actors-mcp-server",
+        "--tools",
+        "actors,docs,apify/rag-web-browser"
+      ],
+      "enabled": true
+    },
+    "markitdown": {
+      "type": "local",
+      "command": [
+        "docker",
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "F:/projects/election-pulse:/data",
+        "markitdown-mcp:latest"
+      ],
+      "enabled": true
+    }
+  }
+}
